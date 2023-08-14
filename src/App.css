@@ -1,0 +1,28 @@
+/* * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.container {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background: gray;
+}
+.box {
+  background: white;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+.guess {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
+}
+.guessField {
+  width: 60%;
+}
+.guessSubmit {
+  padding: 0 7px;
+} */
