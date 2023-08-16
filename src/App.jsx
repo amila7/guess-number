@@ -1,70 +1,115 @@
-import {useEffect, useState} from 'react';
-import './App.css'
+import  { useState, useEffect } from 'react';
+import './App.css';
 
-const App = () => {
 
+function App() {
+  const [randomNumber, setRandomNumber] = useState(0);
+  const [guess, setGuess] = useState('');
+  const [message, setMessage] = useState('');
+  const [times, setTimes] = useState('4');
+  const [gameOver, setGameOver] = useState(false);
 
 
   useEffect(() => {
+    setRandomNumber(generateRandomNumber());
+  }, []);
 
-    const results = []
 
-    let randomNumber = Math.floor(Math.random() * 100) + 1;
-    const rand = document.querySelector(".random_box")
-    rand.innerHTML = randomNumber
+  const generateRandomNumber = () => {
+    return Math.floor(Math.random() * 100) + 1;
+  };
 
-    const guesses = document.querySelector(".guesses");
-    const lastResult = document.querySelector(".lastResult");
-    const lowOrHi = document.querySelector(".lowOrHi");
-    
-    const guessSubmit = document.querySelector(".guessSubmit");
-    const guessField = document.querySelector(".guessField");
-    
-    let guessCount = 1;
-    let resetButton;
 
-    
-    function checkGuess() {
-      if (randomNumber == guessField.value){
-        lastResult.style.background = 'green'
-        lastResult.style.color = 'white'
-        lastResult.innerHTML = 'Congratulations! You got it right!'
-      }else{
-        lastResult.style.background = 'red'
-        lastResult.style.color = 'white'
-        lastResult.innerHTML = 'Wrong!'
+  const handleGuess = () => {
+    if (times > 0) {
+      const userGuess = parseInt(guess);
+      if (userGuess === randomNumber) {
+        setMessage(<span style={{ background: 'green' }}>Congratulations! You got it right!</span>);
+       
 
-        results.push(guessField.value)
+
+        // setMessage('Congratulations! You got it right!');
+       
+        setGameOver(true);
+      } else if (userGuess > randomNumber) {
+        setMessage(
+          <>
+            <span style={{ background: 'red' }}>Wrong!</span>
+            <br />
+            大きすぎます!
+          </>
+        );
+
+
+
+
+      } else {
+        // setMessage('小さすぎます! ');
+        // setMessage('wrong!')
+        setMessage(
+          <>
+            <span style={{ background: 'red' }}>Wrong!</span>
+            <br />
+            小さすぎます!
+          </>
+        );
+
+
+
+
       }
-      guesses.innerHTML = 'Previous guesses:' + results;
+      setTimes(times - 1);
+    } else {
+      setMessage(`Game Over. The correct number was ${randomNumber}.`);
+      setGameOver(true);
     }
+    setGuess('');
+  };
 
-    guessSubmit.addEventListener("click", checkGuess)
 
-  
-  },[]);
+  const resetGame = () => {
+    setRandomNumber(generateRandomNumber());
+    setMessage('');
+    setGuess('');
+    setTimes(4);
+    setGameOver(false);
+  };
+
 
   return (
+   
     <div className="container">
-      <div className="box">
+      <div className='box'>
+      <p> {randomNumber}</p>
+      <h1>Number Guessing Game</h1>
+      <p>We have selected a random number between 1 and 100. See if you can guess it in 4 turns or fewer. We&apos;ll tell you if your guess was too high or too low.</p>
+     
+      <div>
+        <input
+          type="number"
+          value={guess}
+          onChange={(e) => setGuess(e.target.value)}
+          disabled={gameOver} 
 
-        <p className='random_box'></p>
-
-        <h1>Number guessing game</h1>
-        <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
-        <div className="guess">
-          <label htmlFor="guessField">Enter a guess: </label>
-          <input type="number" id="guessField" className="guessField" />
-          <input type="submit" value="Submit guess" className="guessSubmit" />
-        </div>
-        <div className="resultParas">
-          <p className="guesses"></p>
-          <p className="lastResult"></p>
-          <p className="lowOrHi"></p>
-        </div>
+        />
+        <button onClick={handleGuess} disabled={gameOver}>
+          Submit guess
+        </button>
       </div>
-    </div>
+      <p>{message}</p>
+      <p>Previous guesses: {times}</p>
+      {gameOver && (
+        <button onClick={resetGame}>Play Again</button>
+        )}
+        </div>
+        </div>
+     
+   
+   
   );
-};
+}
+
 
 export default App;
+
+

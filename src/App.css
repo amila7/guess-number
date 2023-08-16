@@ -1,4 +1,4 @@
-/* * {
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -11,18 +11,7 @@
 }
 .box {
   background: white;
-  max-width: 800px;
+  max-width: 768px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 30px;
 }
-.guess {
-  display: flex;
-  gap: 5px;
-  margin-top: 20px;
-}
-.guessField {
-  width: 60%;
-}
-.guessSubmit {
-  padding: 0 7px;
-} */
